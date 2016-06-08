@@ -48,9 +48,11 @@
                     //ob kliku na VREDO uporabnika vrže nazaj na login.php
                     echo '<script>window.location= "login.php"</script>';
                }
-               //drugače pa ga prijavi in pošlje v index.php
+               //drugače pa ga prijavi in pošlje v index.php, ter mu posodobi ban_date na 0...
                else
-               {
+               {                   
+                    $query = "UPDATE users SET ban_date='0000-00-00 00:00:00' WHERE (id=$user2);";
+                    $result = mysqli_query($link, $query);
                     header("Location: index.php");
                     die();
                }
