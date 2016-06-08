@@ -9,8 +9,7 @@ while($row = mysqli_fetch_array($result1))
 {
     $admin = $row['administrator'];
 }
-$query4 = "SELECT COUNT(p.id) FROM posts p INNER JOIN users u ON p.user_id=u.id WHERE u.id=".$row['user_id'].";";
-$result4 = mysqli_query($link, $query4);
+
 //phpinfo();
 ?>
 <div class="tabs">
@@ -29,6 +28,7 @@ $result4 = mysqli_query($link, $query4);
                     ORDER BY p.date_add DESC";
                 $result2 = mysqli_query($link, $query2);
                     while ($row = mysqli_fetch_array($result2)) {
+                        //shrani id uporabnika posta in avatar uporabnika
                         $user_id = $row['user_id'];
                         $avatar2 = $row['avatar'];
                         if($admin == 1){?>
@@ -36,12 +36,16 @@ $result4 = mysqli_query($link, $query4);
                             Number of posts: 
                                 <?php 
                                     $avatar = 0;
+                                    //izračuna število vseh postov uporabnika
                                     $query4 = "SELECT COUNT(p.id) FROM posts p INNER JOIN users u ON p.user_id=u.id WHERE u.id=".$row['user_id'].";";
                                     $result4 = mysqli_query($link, $query4);
                                     while($row2 = mysqli_fetch_array($result4))
                                     { 
+                                        //izpiše število postov
                                         echo $row2[0];
+                                        //shrani število v novo spremenljivko
                                         $avatar = $row2[0];
+                                        //če je število postov večje od 10 ali 50 ali 100, se jim vstavi ustrezen avatar, kjer je id enak id posta
                                         if($avatar > 10)
                                         {
                                             $query5 = "UPDATE users SET avatar='https://pbs.twimg.com/profile_images/443706288967393281/MdTpGPiJ.jpeg' WHERE id=$user_id;";
@@ -57,10 +61,12 @@ $result4 = mysqli_query($link, $query4);
                                             $query7 = "UPDATE users SET avatar='http://emojipedia-us.s3.amazonaws.com/cache/42/6d/426d5d9155c35c44e66980c4187f6bab.png' WHERE id=$user_id;";
                                             $result7 = mysqli_query($link, $query7);
                                         }
+                                        //posodobi num_posts na število iz postov iz spremenljivke
                                         $query8 = "UPDATE users SET num_posts=$avatar WHERE id=$user_id;";
                                         $result8 = mysqli_query($link, $query8);
                                     }
                                     ?><br />
+                                    <!--if stavek če ni prazen se vstavi slika, če pa je pa nič ne naredi-->
                             <span class="trollAvatar"><?php echo !empty($avatar2) ? '<img name="avatar" src='.$avatar2.' width="25" height="25" alt="avatar" />':'';?></span>    
                             <span class="trollUser"><?php echo $row['username']; ?>,</span>
                             <span class="trollDate"><?php echo $row['date_add']; ?></span>
