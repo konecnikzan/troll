@@ -31,14 +31,14 @@ while($row = mysqli_fetch_array($result))
     
     $uporabniki="";
     $st=0;
-    $query2 = "SELECT * FROM users ORDER BY num_posts DESC LIMIT 3;";    //razvrsti jih od najmanjšega do največjega, izpiše prve 3 največje
+    $query2 = "SELECT * FROM users ORDER BY num_posts DESC LIMIT 3;";    //razvrsti jih od najmanjšega do največjega,ter izpiše prve 3 največje
     $result2 = mysqli_query($link, $query2);
     while($row2 = mysqli_fetch_array($result2))
     {    
         $st++;
         $username = $row2['username']; 
         $uporabniki .= "$st. $username<br />";
-        echo $uporabniki;
+        /*echo $uporabniki;*/
     }
     $mail->Body = "$uporabniki";
 
